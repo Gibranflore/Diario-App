@@ -1,9 +1,9 @@
-import { Box } from '@mui/material'
-import { NavBar } from '../components/index';
+import { Box, Toolbar } from '@mui/material'
+import { NavBar, SideBar } from '../components';
 
 const borderWidth = 240;
 
-export const JournalLayout = ({Children}) => {
+export const JournalLayout = ({children}) => {
   return (
     
     //aqui decimos que el display de la caja sera fija
@@ -13,12 +13,14 @@ export const JournalLayout = ({Children}) => {
         <NavBar borderWidth={borderWidth}/>
 
         {/* SideBar */}
+        <SideBar borderWidth={borderWidth}/>
 
-        <Box component='main' sx={{flexGrow: 1, p: 3}} >
-
-        {Children}
+        <Box component='main' sx={{flexGrow: 1, p: 8}} >
 
         {/* ToolBar */}
+        <Toolbar/>
+        
+        {children}
 
         </Box>
     </Box>

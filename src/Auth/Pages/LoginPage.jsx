@@ -19,13 +19,12 @@ export const LoginPage = () => {
                 <TextField label='contraseña' type='password' placeholder='contraseña' fullWidth/>
             </Grid>
 
-              <Grid container spacing={2} sx={{ mt: 1 }}>
+              <Grid container spacing={2} sx={{ mt: 1, mb: 2 }}>
 
                   <Grid item xs={12} sm={6}>
                       <Button variant='contained' fullWidth>
                       Login
                       </Button>
-
                   </Grid>
 
                   <Grid item xs={12} sm={6}>

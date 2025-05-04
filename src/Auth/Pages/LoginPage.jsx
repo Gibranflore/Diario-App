@@ -1,11 +1,10 @@
 import { Link as RouterLink} from 'react-router'
+import { useDispatch } from 'react-redux'
 import { Button, Grid, Link, TextField, Typography,  } from '@mui/material'
 import { Google} from '@mui/icons-material' 
 import { AuthLayout } from '../Layout/AuthLayout'
 import { useForm } from '../../Hooks'
-import { useDispatch, useSelector } from 'react-redux'
-import { checkingAuthtentication } from '../../App/Auth/thunk'
-import { useEffect } from 'react'
+import { checkingAuthtentication, startGoogleSignIn, } from '../../App/Auth/thunk'
 
 
 export const LoginPage = () => {
@@ -19,16 +18,17 @@ export const LoginPage = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    //^ si en console.log no agregamos las llaves no lo muestra como objeto si no como un string
+     //* si en console.log no agregamos las llaves no lo muestra como objeto si no como un string
     console.log( {email, password} )
     dispatch(checkingAuthtentication())
   }
 
   const onGoogleSignIn = () => {
     console.log('OnGoogleSignIn')
+    dispatch(startGoogleSignIn())
   }
-  
 
+  
   return (
     // Todo este "Grid" es como un div y esto solo maneja el color de fondo y el tamaño
     <AuthLayout title='Login'>

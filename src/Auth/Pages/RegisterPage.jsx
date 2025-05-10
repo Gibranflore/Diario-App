@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink} from 'react-router'
-import { Button, Grid, Link, TextField, Typography,  } from '@mui/material'
+import { Alert, Button, Grid, Link, TextField, Typography,  } from '@mui/material'
 import { useForm } from '../../Hooks'
 import { AuthLayout } from '../Layout/AuthLayout'
 import { startCreatingUserWithEmailPassword } from '../../App/Auth/thunk'
@@ -24,6 +24,9 @@ export const RegisterPage = () => {
   const dispatch = useDispatch()
   const [formSubmitted, setformSubmitted] = useState(false)
 
+  const { status, errorMessage} = useSelector( state => state.auth)
+  const isCheckingAuthentication = useMemo(() => status === 'checking', [status])
+
   const { 
     formState, displayName, email, password, onInputChange,
     isFormValid, displayNameValid, emailValid, passwordValid, 
@@ -41,7 +44,6 @@ export const RegisterPage = () => {
 
   return (
     <AuthLayout title='Crear Cuenta'>
-      <h1>formValid {isFormValid ? 'Válido' : 'Incorrecto'}</h1>
         <form onSubmit={ onSubmit }>
 
           <Grid >
@@ -86,8 +88,17 @@ export const RegisterPage = () => {
                   helperText={passwordValid}/>
             </Grid>
 
-              <Grid container spacing={2} sx={{mb: 2}}>
-                  <Button variant='contained' fullWidth sx={{mt: 2,}} type='Submit' >
+                {/* La doble negacion la transforma en un valor booleano */}
+              <Grid 
+                item 
+                sx={{mb: 2}}
+                display={ !!errorMessage ? '' : 'none'}> 
+
+                  <Alert severity='error'>{errorMessage}</Alert>
+              </Grid>
+
+              <Grid item sx={{mb: 2, mt: 3}}>
+                  <Button disabled={ isCheckingAuthentication} variant='contained' fullWidth type='Submit' >
                       Crear Cuaenta
                   </Button>
               </Grid>

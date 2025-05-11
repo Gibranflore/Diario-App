@@ -70,14 +70,14 @@ export const LoginPage = () => {
                 </Grid>
               </Grid>
 
-                <Grid container spacing={2} sx={{ mt: 1, mb: 2}}>
-                  <Grid item xs={12} sm={6}>
+                <Grid item spacing={2} sx={{ mt: 1, mb: 2}}>
+                  <Grid item xs={12} sm={6} sx={{ mt: 2}}>
                       <Button type='submit' variant='contained' fullWidth disabled={isAuthtenticating}>
                       Login
                       </Button>
                   </Grid>
 
-                  <Grid item xs={12} sm={6} >
+                  <Grid item xs={12} sm={6} sx={{ mt: 1}} >
                       <Button onClick={onGoogleSignIn} variant='contained' fullWidth disabled={isAuthtenticating}>
                         <Google/>
                           <Typography sx={{ml: 1}}>Google</Typography>

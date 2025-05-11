@@ -8,8 +8,8 @@ import { startCreatingUserWithEmailPassword } from '../../App/Auth/thunk'
 
 
 const formData = {
-  email: '',
-  password: '', 
+  email:       '',
+  password:    '', 
   displayName: '',
 }
 

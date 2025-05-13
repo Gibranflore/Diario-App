@@ -8,8 +8,7 @@ export const singInWithGoogle = async() => {
     
     try {
         
-        const result = await signInWithPopup( FirebaseAuth, googleProvider);
-        //const credentials = GoogleAuthProvider.credentialFromResult( result ); 
+        const result = await signInWithPopup( FirebaseAuth, googleProvider);  //? const credentials = GoogleAuthProvider.credentialFromResult( result ); 
         const {email, displayName, uid, photoURL} = result.user
         await updateProfile(FirebaseAuth.currentUser,{displayName}) //? En FireBase para saber nuestro ussuario actual esto es lo que se usa, para actualiazar al ususario es "FirebaseAuth.currentUset,{displayName}"
 

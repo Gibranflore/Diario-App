@@ -22,7 +22,7 @@ export const JournalSlice = createSlice({
             state.active = action.payload     // Esto es la nota activa para veral en la pagina, hace el cambio de activar
         },
         setNote: (state, action) => {
-            
+            state.notes = action.payload      // Aqui se guardan las notas que se cargaron desde firebase
         },
         setSaving: (state, action) => {
             

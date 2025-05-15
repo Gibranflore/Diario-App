@@ -21,8 +21,8 @@ export const JournalPage = () => {
       
       {
         (!!active)
-        ?  <NothingSelected/> // si "NO" hay nota activa muestra esta pagina
-        :  <NotView/>         // "SI" hay nota activa esta enseña
+        ?  <NotView/>         // "SI" hay nota activa esta enseña
+        :  <NothingSelected/> // si "NO" hay nota activa muestra esta pagina
       }
 
         <IconButton

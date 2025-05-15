@@ -7,23 +7,24 @@ import { useForm } from '../../Hooks'
 import { AuthLayout } from '../Layout/AuthLayout'
 import { startGoogleSignIn, startLoginWithEmailPassword } from '../../App/Auth/thunk'
 
+const formData = {
+    email: '',
+    password: ''
+}
 
 export const LoginPage = () => {
 
   const { status, errorMessage } = useSelector(state => state.auth)
 
   const dispatch = useDispatch()
-  const { password, onInputChange, email} = useForm({
-    email: '',
-    password: ''
-  });
+  const { password, onInputChange, email} = useForm(formData)
 
   const isAuthtenticating = useMemo( () => status === 'checking', [status])
 
 
   const onSubmit = (event) => {
     event.preventDefault();
-    //* console.log( {email, password} ) si en console.log no agregamos las llaves no lo muestra como objeto si no como un string
+    // console.log( {email, password} ) si en console.log no agregamos las llaves no lo muestra como objeto si no como un string
     dispatch(startLoginWithEmailPassword( {email, password} ) ) //*Espera que lleguen el email y password del thunk
   }
 

@@ -36,7 +36,7 @@ export const NavBar = ({borderWidth = 240}) => {
                 <Grid container direction='row' justifyContent='space-between' alignItems='center' sx={{ width: '100%' }}>
                     <Typography variant="h6" noWrap component='div' >   JournalApp    </Typography>
 
-                       <IconButton 
+                <IconButton 
                     color='error'
                     onClick={ onLogout }
                 >

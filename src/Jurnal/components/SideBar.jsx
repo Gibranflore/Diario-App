@@ -1,10 +1,13 @@
-import { ListOutlined } from "@mui/icons-material"
-import { Box, Divider, Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
+
+import { Box, Divider, Drawer, List, Toolbar, Typography } from "@mui/material"
 import { useSelector } from "react-redux"
+import { SideBarItem } from "./"
+
 
 export const SideBar = ({borderWidth}) => {
 
     const { displayName } = useSelector( state => state.auth)
+    const { notes } = useSelector( state => state.Journal)
 
     return (
         <Box 
@@ -24,25 +27,15 @@ export const SideBar = ({borderWidth}) => {
 
                     <Toolbar>
                         <Typography variant="h6" noWrap component='div'>
-                            {displayName}
+                            {displayName}   {/* Esto llama al nombre del usuario */}
                         </Typography>
                     </Toolbar>
                 <Divider/>
 
                     <List>
                         {
-                            ['Enero', 'Febrero', 'Marzo', 'Abril'].map( text => (
-                                <ListItem key={ text} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            <ListOutlined/>
-                                        </ListItemIcon>
-                                            <Grid container>
-                                                <ListItemText primary={text}/>
-                                                <ListItemText secondary={ 'iverra. Nulla fringilla, orci ac euismod semper, ' }/>
-                                            </Grid>
-                                    </ListItemButton>
-                                </ListItem>
+                            notes.map( notes => (
+                                <SideBarItem key={notes.id} { ...notes } /> /*  Simplificando el codigo llamdo este componente */
                             ))
                         }
                     </List>

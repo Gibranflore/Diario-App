@@ -1,13 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useMemo } from 'react'
+
 import { SaveAltOutlined } from '@mui/icons-material'
 import { Button, Grid, TextField, Typography } from '@mui/material'
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.css'
+
 import { ImageGallery } from '../components'
 import { useForm } from '../../Hooks'
-import { useMemo } from 'react'
+import { setActivateNote, startSvingNote } from '../../App/journal'
 
 export const NotView = () => {
 
-    const {active:note} = useSelector(state => state.Journal)             //& llamamos a nuestro slice y activate 
+    const dispatch = useDispatch()
+
+    const {active:note, messageSave, isSaving} = useSelector(state => state.Journal)  //& llamamos a nuestro slice y activate 
     
     const {onInputChange, formState, body, title, date} = useForm( note ) //& llamamos esto del useForm y le añadimos el title, body etc
 
@@ -16,6 +23,22 @@ export const NotView = () => {
         return newDate.toUTCString();
     }, [date])
 
+    useEffect(() => {
+    dispatch(setActivateNote(formState));  //& si cambiamos la nota formState tiene los datos de la nota actulizada y lo cambia
+
+    }, [formState]);
+
+    useEffect(() => {                     //& este useEffect crea la alertea cuando se guarda algun cambio en las notas 
+        if ( messageSave.length > 0 ) 
+            Swal.fire( 'Nota actualizada', messageSave, 'success' )
+        
+
+    }, [messageSave])
+    
+    
+    const onSaveNote = () => {
+        dispatch(startSvingNote());
+    }
 
     return (
         <Grid container direction='column' justifyContent='space-between' alignItems='center' sx={{width: '100%', mb: 1 }}>
@@ -24,7 +47,12 @@ export const NotView = () => {
             </Grid>
 
             <Grid item>
-                <Button color="primary" sx={{ padding: 2 }}>
+                <Button
+                    disabled={isSaving}
+                    onClick={ onSaveNote }
+                    color="primary" 
+                    sx={{ padding: 2 }}
+                >
                     <SaveAltOutlined sx={{ fontSize: 30, mr: 1 }} />
                     Guardar
                 </Button>

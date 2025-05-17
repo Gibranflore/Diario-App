@@ -1,7 +1,7 @@
 
 import { FirebaseDB } from '../../firebase/confing';
 import { collection, doc, setDoc } from 'firebase/firestore';
-import { addNewEmptyNote, savingNewNote, setActivateNote, setNote } from './journalSlice';
+import { addNewEmptyNote, savingNewNote, setActivateNote, setNote, updateNote } from './journalSlice';
 import { loadNotes } from '../../helpers/loadNotes';
 
 export const startNewNote = () => {
@@ -26,7 +26,7 @@ export const startNewNote = () => {
         
     }    
 }
-export const startLoadingNotes = () => {
+export const startLoadingNotes = () => {        //? Esto es para cargar las notas
     return async( dispatch, getState ) => {
         
         const { uid } = getState().auth;
@@ -34,5 +34,25 @@ export const startLoadingNotes = () => {
         
         const notes = await loadNotes( uid );                        //? Si el usuario no existe manda un error
         dispatch( setNote( notes ) );
+    }
+}
+
+export const startSvingNote = () => {               //? Esto es nuestro thunk para guardar la nota
+    return async(dispatch, getState) => {
+
+        dispatch(savingNewNote());                  //? Esto es para guardar la nota
+
+        const { uid } = getState().auth;            //? Esto es para obtener el uid del usuario
+        const { active:note } = getState().Journal; //? Esto es para obtener la nota activa
+
+        const noteToFireStore = { ...note };        //? Esto es para obtener la nota activa y guardarla en una variable 
+        delete noteToFireStore.id;                 //? Esto es para eliminar el id de la nota activa
+
+        console.log(noteToFireStore);
+        const docRef = doc( FirebaseDB, `${uid}/journal/notas/${note.id}` ); //? Esto es para obtener el documento de la nota activa
+        await setDoc( docRef, noteToFireStore, {merge: true} );              //? Esto es para guardar la nota activa en la base de datos
+
+        dispatch( updateNote( note ) ); //? Esto es para actualizar la nota llama al slice "UPDATENOTE"
+
     }
 }

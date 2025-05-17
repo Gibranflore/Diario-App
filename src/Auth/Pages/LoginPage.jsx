@@ -37,7 +37,7 @@ export const LoginPage = () => {
   return (
     // Todo este "Grid" es como un div y esto solo maneja el color de fondo y el tamaño
     <AuthLayout title='Login'>
-        <form onSubmit={onSubmit} >
+        <form onSubmit={onSubmit} className='animate__animated animate__bounce animate__fadeIn'>
           <Grid >
             <Grid item xs={ 12 } sx={{ mt: 2 }}>
                 <TextField 

@@ -10,7 +10,7 @@ export const useForm = ( initialForm = {}, formValidations = {}) => {
     }, [ formState ])
 
     useEffect(() => {
-        setFormState( initialForm );
+        setFormState( initialForm ); //* Esto vuelve a llamar la formulario, sin ello solo se veria el titulo
     }, [ initialForm ])
     
     const isFormValid = useMemo( () => {

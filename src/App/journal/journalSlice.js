@@ -20,15 +20,27 @@ export const JournalSlice = createSlice({
         },
         setActivateNote: (state, action) => {
             state.active = action.payload     //~ Esto es la nota activa para veral en la pagina, hace el cambio de activar
+            state.messageSave = '';
         },
         setNote: (state, action) => {
             state.notes = action.payload      //~ Aqui se guardan las notas que se cargaron desde firebase
         },
-        setSaving: (state, action) => {
-            
+        setSaving: ( state ) => {             //~ Esto es para guardar la nota
+            state.isSaving = true;
+            state.messageSave = '';
         },
-        updateNote: (state, action) => {
+        updateNote: (state, action) => {      //~ Esto es para actualizar la nota
+            state.isSaving = false;
+            
+            state.notes = state.notes.map( note => { 
 
+                if (note.id === action.payload.id) {
+                    return action.payload; 
+                }
+                return note;                  //~ Es importante retornar la nota o dara error al hacer clic en las demas
+            });
+
+            state.messageSave = `${action.payload.title}, Se actualizo correctamente`
         },
         deleteNodeById: (state, action) => {
             

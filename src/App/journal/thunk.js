@@ -1,8 +1,9 @@
 
 import { FirebaseDB } from '../../firebase/confing';
 import { collection, doc, setDoc } from 'firebase/firestore';
-import { addNewEmptyNote, savingNewNote, setActivateNote, setNote, updateNote } from './journalSlice';
+import { addNewEmptyNote, savingNewNote, setActivateNote, setNote, setSaving, updateNote } from './journalSlice';
 import { loadNotes } from '../../helpers/loadNotes';
+import { fileUpload } from '../../helpers';
 
 export const startNewNote = () => {
     return async(dispatch, getState) => { //? el segundo argumeto que hay es el getState que tiene ambos reducers
@@ -54,5 +55,14 @@ export const startSvingNote = () => {               //? Esto es nuestro thunk pa
 
         dispatch( updateNote( note ) ); //? Esto es para actualizar la nota llama al slice "UPDATENOTE"
 
+    }
+}
+
+export const SavingImageFileLoad = ( files = [] ) => {
+    return async(  dispatch ) => {
+        dispatch( setSaving() );    //? Esto hace que la aplicacion bloque los botones cuando esta en estado de carga
+
+        await fileUpload(files[0])
+        
     }
 }

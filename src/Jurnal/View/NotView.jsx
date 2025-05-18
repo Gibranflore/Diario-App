@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 
-import { SaveAltOutlined } from '@mui/icons-material'
-import { Button, Grid, TextField, Typography } from '@mui/material'
+import { SaveAltOutlined, UploadOutlined } from '@mui/icons-material'
+import { Button, Grid, IconButton, TextField, Typography } from '@mui/material'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.css'
 
 import { ImageGallery } from '../components'
 import { useForm } from '../../Hooks'
-import { setActivateNote, startSvingNote } from '../../App/journal'
+import { SavingImageFileLoad, setActivateNote, startSvingNote } from '../../App/journal'
 
 export const NotView = () => {
 
@@ -16,7 +16,7 @@ export const NotView = () => {
 
     const {active:note, messageSave, isSaving} = useSelector(state => state.Journal)  //& llamamos a nuestro slice y activate 
     
-    const {onInputChange, formState, body, title, date} = useForm( note ) //& llamamos esto del useForm y le añadimos el title, body etc
+    const {onInputChange, formState, body, title, date} = useForm( note )             //& llamamos esto del useForm y le añadimos el title, body etc
 
     const newDate = useMemo(() => {
         const newDate = new Date( date );
@@ -40,6 +40,16 @@ export const NotView = () => {
         dispatch(startSvingNote());
     }
 
+    const onClickRef = useRef()
+
+    const onFileInputChange = ({ target }) => {
+        if ( target.files === 0 ) return;       //& Para llamar subir archivos con con el nombre "FILES"
+
+        dispatch( SavingImageFileLoad( target.files ) )
+        
+    }
+
+
     return (
         <Grid container direction='column' justifyContent='space-between' alignItems='center' sx={{width: '100%', mb: 1 }}>
             <Grid item>
@@ -47,15 +57,32 @@ export const NotView = () => {
             </Grid>
 
             <Grid item>
-                <Button
+                <input
+                    type='file'
+                    multiple
+                    onChange={ onFileInputChange}
+                    style={{display: 'none'}}
+                    ref={onClickRef}    //& Esto es una referencia que se puede usar en otro lado simulacion de un click
+                />
+
+                <IconButton
+                    color='primary'
                     disabled={isSaving}
-                    onClick={ onSaveNote }
-                    color="primary" 
-                    sx={{ padding: 2 }}
+                    onClick={() => onClickRef.current.click()}  //& Esto va a simular cuado demos click aqui llame al input de arriba
                 >
-                    <SaveAltOutlined sx={{ fontSize: 30, mr: 1 }} />
-                    Guardar
-                </Button>
+                    <UploadOutlined/>
+                </IconButton>
+
+
+                    <Button
+                        disabled={isSaving}
+                        onClick={ onSaveNote }
+                        color="primary" 
+                        sx={{ padding: 2 }}
+                    >
+                        <SaveAltOutlined sx={{ fontSize: 30, mr: 1 }} />
+                        Guardar
+                    </Button>
             </Grid>
 
             <Grid container>

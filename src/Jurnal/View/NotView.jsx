@@ -113,7 +113,8 @@ export const NotView = () => {
             </Grid>
 
             {/* Image gallery */}
-            <ImageGallery />
+            <ImageGallery images={ note.imageURL } /> 
+            {/* //& Esto le da el parametro de imagen al ocmponenete, "note.imgeUrls" tiene las notas mas actualizadas */}
 
         </Grid>
     )

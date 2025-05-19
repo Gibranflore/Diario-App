@@ -1,7 +1,7 @@
 
 import { FirebaseDB } from '../../firebase/confing';
 import { collection, doc, setDoc } from 'firebase/firestore';
-import { addNewEmptyNote, savingNewNote, setActivateNote, setNote, setSaving, updateNote } from './journalSlice';
+import { addNewEmptyNote, savingNewNote, setActivateNote, setNote, setPhotosToActiveNote, setSaving, updateNote } from './journalSlice';
 import { loadNotes } from '../../helpers/loadNotes';
 import { fileUpload } from '../../helpers';
 
@@ -54,15 +54,25 @@ export const startSvingNote = () => {               //? Esto es nuestro thunk pa
         await setDoc( docRef, noteToFireStore, {merge: true} );              //? Esto es para guardar la nota activa en la base de datos
 
         dispatch( updateNote( note ) ); //? Esto es para actualizar la nota llama al slice "UPDATENOTE"
-
     }
 }
 
+//? Esto hace que la aplicacion bloque los botones cuando esta en estado de carga
 export const SavingImageFileLoad = ( files = [] ) => {
     return async(  dispatch ) => {
-        dispatch( setSaving() );    //? Esto hace que la aplicacion bloque los botones cuando esta en estado de carga
-
-        await fileUpload(files[0])
+        dispatch( setSaving() );        
         
+        // await fileUpload(files[0])
+
+        const fileUpLoadPromise = [];   
+        for (const file of files) {
+            fileUpLoadPromise.push( fileUpload( file ) );
+        }
+        const photoUrls = await Promise.all(fileUpLoadPromise ); 
+        console.log(photoUrls);
+        
+        dispatch(setPhotosToActiveNote(photoUrls))
     }
 }
+//? Es un arreglo con todas las imgenes y se suben en secuencia si subimos varias
+//? Esto es lo que voy a mandar a la nota

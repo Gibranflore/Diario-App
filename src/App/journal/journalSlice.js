@@ -21,7 +21,7 @@ export const JournalSlice = createSlice({
         },
 
         setActivateNote: (state, action) => {
-            state.active = action.payload     //~ Esto es la nota activa para veral en la pagina, hace el cambio de activar
+            state.active      = action.payload     //~ Esto es la nota activa para veral en la pagina, hace el cambio de activar
             state.messageSave = '';
         },
 
@@ -30,14 +30,14 @@ export const JournalSlice = createSlice({
         },
 
         setSaving: ( state ) => {             //~ Esto es para guardar la nota
-            state.isSaving = true;
+            state.isSaving    = true;
             state.messageSave = '';
         },
 
         updateNote: (state, action) => {      //~ Esto es para actualizar la nota
             state.isSaving = false;
             
-            state.notes = state.notes.map( note => { 
+            state.notes    = state.notes.map( note => { 
 
                 if (note.id === action.payload.id) {
                     return action.payload; 
@@ -50,9 +50,15 @@ export const JournalSlice = createSlice({
 
         setPhotosToActiveNote: (state, action) => {
             state.active.imageURL = [ ...state.active.imageURL, ...action.payload ]; //~ Conservamos las imagenes anteriores y mandamos las nuevas imagenes
-            state.isSaving = false;
+            state.isSaving        = false;
         },
 
+        cleanNoteLogout: (state) => {   //~ Esto nos ayuda para borrr las notas y el estado activado cuanod se da logout
+            state.isSaving = false;
+            state.notes = [];
+            state.messageSave = '';
+            state.active = null;
+        },
         deleteNodeById: (state, action) => {
 
         },
@@ -60,4 +66,4 @@ export const JournalSlice = createSlice({
 });
 
 export const { addNewEmptyNote, setActivateNote, setNote, setPhotosToActiveNote,
-    setSaving, updateNote, deleteNodeById, savingNewNote } = JournalSlice.actions;
+    setSaving, updateNote, deleteNodeById, savingNewNote, cleanNoteLogout } = JournalSlice.actions;

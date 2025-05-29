@@ -1,7 +1,7 @@
 
 import { FirebaseDB } from '../../firebase/confing';
-import { collection, doc, setDoc } from 'firebase/firestore';
-import { addNewEmptyNote, savingNewNote, setActivateNote, setNote, setPhotosToActiveNote, setSaving, updateNote } from './journalSlice';
+import { collection, deleteDoc, doc, setDoc } from 'firebase/firestore';
+import { addNewEmptyNote, deleteNoteById, savingNewNote, setActivateNote, setNote, setPhotosToActiveNote, setSaving, updateNote } from './journalSlice';
 import { loadNotes } from '../../helpers/loadNotes';
 import { fileUpload } from '../../helpers';
 
@@ -76,3 +76,18 @@ export const SavingImageFileLoad = ( files = [] ) => {
 }
 //? Es un arreglo con todas las imgenes y se suben en secuencia si subimos varias
 //? Esto es lo que voy a mandar a la nota
+
+export const startDeleteNote = () => {
+    return async(dispatch, getState) => {
+
+        
+        const { uid } = getState().auth;
+        const { active: note } = getState().Journal;
+        
+        const docRef = doc(FirebaseDB, `${uid}/journal/notas/${ note.id }`)   //? Estamos apuntando a la ruta de nuestro FireBase
+        const resp = deleteDoc( docRef )
+
+        dispatch(deleteNoteById(note.id))
+        
+    }
+}

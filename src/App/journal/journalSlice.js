@@ -59,11 +59,13 @@ export const JournalSlice = createSlice({
             state.messageSave = '';
             state.active = null;
         },
-        deleteNodeById: (state, action) => {
+        deleteNoteById: (state, action) => {
+            state.active = null     //~ Desactivamos la nota
+            state.notes  = state.notes.filter( note => note.id !== action.payload)  //~ Hacemos un filtro si el id es igual al que recibo lo elimina
 
         },
     }
 });
 
 export const { addNewEmptyNote, setActivateNote, setNote, setPhotosToActiveNote,
-    setSaving, updateNote, deleteNodeById, savingNewNote, cleanNoteLogout } = JournalSlice.actions;
+    setSaving, updateNote, deleteNoteById, savingNewNote, cleanNoteLogout } = JournalSlice.actions;

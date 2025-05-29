@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useMemo, useRef } from 'react'
 
-import { SaveAltOutlined, UploadOutlined } from '@mui/icons-material'
+import { DeleteOutline, SaveAltOutlined, UploadOutlined } from '@mui/icons-material'
 import { Button, Grid, IconButton, TextField, Typography } from '@mui/material'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.css'
 
 import { ImageGallery } from '../components'
 import { useForm } from '../../Hooks'
-import { SavingImageFileLoad, setActivateNote, startSvingNote } from '../../App/journal'
+import { SavingImageFileLoad, setActivateNote, startDeleteNote, startSvingNote } from '../../App/journal'
 
 export const NotView = () => {
 
@@ -31,7 +31,6 @@ export const NotView = () => {
     useEffect(() => {                     //& este useEffect crea la alertea cuando se guarda algun cambio en las notas 
         if ( messageSave.length > 0 ) 
             Swal.fire( 'Nota actualizada', messageSave, 'success' )
-        
 
     }, [messageSave])
     
@@ -47,6 +46,10 @@ export const NotView = () => {
 
         dispatch( SavingImageFileLoad( target.files ) )
         
+    }
+
+    const onDelete = () => {
+        dispatch(startDeleteNote())
     }
 
 
@@ -110,6 +113,17 @@ export const NotView = () => {
                     onChange={onInputChange}
 
                 />
+            </Grid>
+
+            <Grid container justifyContent='end'>
+                <Button
+                    onClick={onDelete}
+                    sx={{mt: 2}}
+                    color='error'
+                    >
+                        <DeleteOutline/>
+                        Borrar
+                </Button>
             </Grid>
 
             {/* Image gallery */}

@@ -3,7 +3,8 @@
 
 export const fileUpload = async( file ) => {
 
-    if( !file ) throw new Error("No se subio ningun archivo");
+    if( !file ) return null; 
+        // throw new Error("No se subio ningun archivo");
 
     const cloudUrl = 'https://api.cloudinary.com/v1_1/dj0ehold6/image/upload';
 
@@ -24,8 +25,9 @@ export const fileUpload = async( file ) => {
 
 
     } catch (error) {
-        console.log(error);
-        throw new Error(error.message);
+        // console.log(error);
+        // throw new Error(error.message);
+        return null;
 
     }
 }

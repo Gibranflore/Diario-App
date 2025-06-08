@@ -32,4 +32,4 @@ export const demoUser = {       //~ Esto espara probar un usuario
         displayName:  'userTest',
         photoURL:     'https://foto.jpg',
         errorMessage: null,
-} 
+}

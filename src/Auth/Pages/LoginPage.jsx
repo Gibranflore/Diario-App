@@ -37,7 +37,7 @@ export const LoginPage = () => {
   return (
     // Todo este "Grid" es como un div y esto solo maneja el color de fondo y el tamaño
     <AuthLayout title='Login'>
-        <form onSubmit={onSubmit} className='animate__animated animate__bounce animate__fadeIn'>
+        <form onSubmit={onSubmit} className='animate__animated animate__bounce animate__fadeIn' aria-label='submit-form'>
           <Grid >
             <Grid item xs={ 12 } sx={{ mt: 2 }}>
                 <TextField 
@@ -57,6 +57,11 @@ export const LoginPage = () => {
                     type='password'
                     placeholder='contraseña' 
                     fullWidth
+
+                    inputProps={{
+                      'data-testId': 'password'
+                    }}
+
                     name='password'
                     onChange={onInputChange}
                     value={password}/>
@@ -79,9 +84,14 @@ export const LoginPage = () => {
                   </Grid>
 
                   <Grid item xs={12} sm={6} sx={{ mt: 1}} >
-                      <Button onClick={onGoogleSignIn} variant='contained' fullWidth disabled={isAuthtenticating}>
-                        <Google/>
-                          <Typography sx={{ml: 1}}>Google</Typography>
+                      <Button
+                        aria-label='google-btn'
+                        onClick={onGoogleSignIn} 
+                        variant='contained' 
+                        fullWidth 
+                        disabled={isAuthtenticating}>
+                          <Google/>
+                            <Typography sx={{ml: 1}}>Google</Typography>
                       </Button>
                   </Grid>
 
